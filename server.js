@@ -1,17 +1,19 @@
 //nadi lel express (import par require)
 const express = require('express')
-const path= require('path')
+require('dotenv').config()
+//console.log(process.env.PORT)
+const connectdb=require('./config/DBconnect')
+//port=process.env.PORT
 
 
 //initianilation server
 const app = express()
-const port =5000
+connectdb()
 
-app.get('/home',(req, res)=>{
-    res.sendFile(path.join(_dirname, "Components", "home.hml" ))
-}
+//middleware 
+app.use(express.json)
+app.use('/users', require('./routes/user'))
 
-)
-
+const port=process.env.PORT
   //  creation server
-    app.listen(port,(err)=>err ? console.log(err):console.log("server is running"))
+    app.listen(port,(err)=>err ? console.log(err):console.log(`server in ${port}`))
